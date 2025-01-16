@@ -1,0 +1,13 @@
+Software Engineering Best Practices
+
+Guidelines to building software well
+
+Single responsibility principle - A unit(i.e. functions, class, ...) should only have one reason to change / Seperation of Concerns
+O
+L
+I
+D
+
+An exception is an object that is created & fired when an error occurs.
+- If the exception is handled, the program runs n maybe gives error message
+- If the exception is not handled, the program can crash
