@@ -9,33 +9,42 @@
 # djxie@uci.edu
 # 63654608
 
-def readfile():
-    with open("pynote.txt", 'r') as file:
-        lines = file.readlines()
-        for line in lines:
-            print(line)
+from pathlib import Path
+
+def readfile(path):
+    file = path.open('r')
+    lines = file.readlines()
+    for line in lines:
+        print(line)
+    file.close()
 
 
-def writenote():
+def writenote(path):
+    file = path.open('a')
     noquit = True
-    with open("pynote.txt", 'a') as file:
-        while noquit:
-            note = input("Please enter a new note (enter q to exit):")
-            if note != "q":
-                file.write(note + "\n")
-            else:
-                noquit = False
+    while noquit:
+        note = input("Please enter a new note (enter q to exit):")
+        if note != "q":
+            file.write(note + "\n")
+        else:
+            noquit = False
+    file.close
 
+
+def createfile(path):
+    file = path.open('x')
+    file.close()
 
 def pynote():
+    path = Path("./pynote.txt")
+    if not path.exists():
+        createfile(path)
+
     print("Welcome to PyNote!")
     print("Here are your notes:\n")
 
-    readfile()
-    writenote()
-
-
-
+    readfile(path)
+    writenote(path)
 
 if __name__ == "__main__":
     pynote()
