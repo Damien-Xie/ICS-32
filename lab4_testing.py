@@ -53,21 +53,24 @@ def read_notes():
         print(line)
     f.close()
 
-def test_file_exist():
-    p = Path(NOTES_PATH) / NOTES_FILE # could instead have an argument for p
-    assert p.exists(), "File does not exist"
 
 def remove_note() -> str: #For requirement 3, we could create the file before the check if that works, AS FOR CONFIRMATION
     p = Path(NOTES_PATH) / NOTES_FILE
-    test_file_exist() # unsure if it is suppose to be here
+    try:
+        f = p.open()
+    except FileNotFoundError as e:
+        print("ERROR:", e)
+    try:
+        assert p.exists(), "File does not exist"
+    except Exception:
+        print("\nAssertion Error Raised")
 
     # check if storage file exists, if not return.
-    if not p.exists():
-        return
+    # if not p.exists():
+    #     return
     
     print("Here are your notes: \n")
-    # open and write user note to file
-    f = p.open()
+    #write user note to file
     id = 1
     lines = []
 

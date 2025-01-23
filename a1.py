@@ -19,29 +19,79 @@ D - Delete the file.
 R - Read the contents of a file.
 Q - Quit the program""")
 
-def create_file(path):
+def test_create(command):
+    assert len(command) == 4
+    path = Path(command[1])
+    assert path.exists()
+    name = command[3] + ".dsu"
+    path = path / name
+    assert not path.exists()
+    assert command[2] == '-n'
+    
+def test_delete(command):
+    assert len(command) == 2
+    path = Path(command[1])
+    assert path.exists()
+    assert command[1][-4:] == ".dsu"
+
+def test_read(command):
+    assert len(command) == 2
+    path = Path(command[1])
+    assert path.exists()
+    assert command[1][-4:] == ".dsu"
+
+def create_file(command):
+    test_create(command)
+    name = command[3] + ".dsu"
+    path = Path(command[1]) / name
+
+    if not path.exists():
+        path.touch(exist_ok=True)
     print(path)
 
-# def delete_file():
+def delete_file(command):
+    test_delete(command)
+    path = Path(command[1])
+    path.unlink()
 
-# def read_file():
+    print(command [1] + " DELETED")
+
+def read_file(command):
+    test_read(command)
+    path = Path(command[1])
+
+    file = path.open('r')
+    lines = file.readlines()
+    if lines == []:
+        print("EMPTY")
+    else:
+        for line in lines:
+            print(line, end='')
+    file.close()
 
 def explorer():
-    command = ['']
     print_commands()
 
-    while command[0].upper() != 'Q':
-        command = input("\nWhat is your command?\n") #FIXME the command is not a single letter but a whole line
+    try:
+        command = input("\nWhat is your command?\n") #"\nWhat is your command?\n"
+        if command == 'Q':
+            return
+        
         command = shlex.split(command)
-        if command[0].upper() == 'C':
-            create_file(command[1:])
-        # if command.upper() == 'D':
-        #     delete_file()
-        # if command.upper() == 'R':
-        #     read_file()
+
+        if command[0] == 'C':
+            create_file(command)
+        elif command[0] == 'D':
+            delete_file(command)
+        elif command[0] == 'R':
+            read_file(command)
+    except AssertionError:
+        print("ERROR")
+
+    explorer()
 
 if __name__ == "__main__":
     explorer()
-    #test command C "/home/algol/ics32/lectures/l1/" -n student
-                # D /home/algol/ics32/lectures/l1/student.dsu
-                # R /home/algol/ics32/lectures/l1/student.dsu
+    #test command C "c:\Users\daXie\ICS 32" -n student
+                # D "c:\Users\daXie\ICS 32/student.dsu"
+                # R "c:\Users\daXie\ICS 32/student.dsu"
