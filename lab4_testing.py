@@ -54,23 +54,16 @@ def read_notes():
     f.close()
 
 
-def remove_note() -> str: #For requirement 3, we could create the file before the check if that works, AS FOR CONFIRMATION
+def remove_note() -> str:
     p = Path(NOTES_PATH) / NOTES_FILE
-    try:
-        f = p.open()
-    except FileNotFoundError as e:
-        print("ERROR:", e)
-    try:
-        assert p.exists(), "File does not exist"
-    except Exception:
-        print("\nAssertion Error Raised")
 
-    # check if storage file exists, if not return.
-    # if not p.exists():
-    #     return
+    #check if storage file exists, if not return.
+    if not p.exists():
+            raise FileNotFoundError
     
     print("Here are your notes: \n")
-    #write user note to file
+    #Open and write user note to file
+    f = p.open()
     id = 1
     lines = []
 
@@ -104,8 +97,12 @@ def remove_note() -> str: #For requirement 3, we could create the file before th
 def run():
     note = input("Please enter a note (enter :d to delete a note or :q to exit):  ")
     if note == ":d":
-        note = remove_note()
-        print(f"The following note has been removed: \n\n {note}")
+        try:
+            note = remove_note()
+            assert note is not None, "File does not exist"
+            print(f"The following note has been removed: \n\n {note}")
+        except FileNotFoundError:
+            print("[ERROR] No such file or directory: 'pynote.txt'\n")
     elif note == ":q":
         return
     else:    
@@ -115,7 +112,6 @@ def run():
 
 if __name__ == "__main__":
     test_is_int()
-    #test_file_exist()
 
     print("Welcome to PyNote! \n")
     read_notes()

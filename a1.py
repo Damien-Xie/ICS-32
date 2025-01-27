@@ -12,12 +12,13 @@ from pathlib import Path
 import shlex
 
 def print_commands():
-    print("""
-Commands Available:
-C - Create a new file in the specified directory.
-D - Delete the file.
-R - Read the contents of a file.
-Q - Quit the program""")
+    pass
+#     print("""
+# Commands Available:
+# C - Create a new file in the specified directory.
+# D - Delete the file.
+# R - Read the contents of a file.
+# Q - Quit the program""")
 
 def test_create(command):
     assert len(command) == 4
@@ -69,11 +70,12 @@ def read_file(command):
             print(line, end='')
     file.close()
 
-def explorer():
+def explorer(): #Does not work if there is a whitespace or not in quotation as it splits the command
     print_commands()
 
     try:
-        command = input("\nWhat is your command?\n") #"\nWhat is your command?\n"
+        command = input() #"\nWhat is your command?\n"
+        assert command != ''
         if command == 'Q':
             return
         
@@ -85,8 +87,10 @@ def explorer():
             delete_file(command)
         elif command[0] == 'R':
             read_file(command)
-    except AssertionError:
-        print("ERROR")
+        else:
+            raise AssertionError
+    except AssertionError: #user enters commands, inputs, or options not understood by the program,
+        print("ERROR")     #the program must simply print ERROR and wait for additional input from the user
 
     explorer()
 
