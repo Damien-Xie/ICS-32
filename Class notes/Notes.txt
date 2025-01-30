@@ -16,12 +16,15 @@ program paradigms(norms, mode):
 
 1. Procedral Programming:
     call and return
-    data is passes around from function to function
+    data is passed around from function to function as needed
+    all about procedures
 
 2. Object-Oriented Programming(OOP):
     All about the data
     No functions but rather methods
     methods are utilities to support data
+    program with a data centric view -> define data entities and their interactions with each other
+    all about the actual data and its relationship
 
 3. Functional Programming (FP):
-    functions being passed like data
+    functions being passed like data (arguments) instead of actual data

@@ -12,14 +12,36 @@
 # ---------------------
 
 # Write your Note class here
-from lab4_testing import read_notes, remove_note, save_note
-
 
 class Note:
-    save_note
-    read_notes
-    remove_note
-    pass
+    def __init__(self, path):
+        self.path = path
+        
+    def save_note(self, note):
+        pynote = self.path.open('a')
+        pynote.write(note + '\n')
+        pynote.close()
+
+    def read_notes(self):
+        pynote = self.path.open('r')
+        notes = pynote.readlines()
+        pynote.close()
+
+        return notes
+
+    def remove_note(self, id):
+        pynote = self.path.open('r')
+        notes = pynote.readlines()
+        remove_note = notes[id]
+        notes.pop(id)
+
+        pynote = self.path.open('w')
+        for line in notes:
+            pynote.write(line)
+
+        pynote.close()
+
+        return remove_note
 
 # ---------------------
 from pathlib import Path
